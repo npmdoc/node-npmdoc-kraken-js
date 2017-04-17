@@ -1,9 +1,11 @@
 # api documentation for  [kraken-js (v2.1.0)](https://github.com/krakenjs/kraken-js#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-kraken-js.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-kraken-js) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-kraken-js.svg)](https://travis-ci.org/npmdoc/node-npmdoc-kraken-js)
 #### An express-based Node.js web application bootstrapping module.
 
-[![NPM](https://nodei.co/npm/kraken-js.png?downloads=true)](https://www.npmjs.com/package/kraken-js)
+[![NPM](https://nodei.co/npm/kraken-js.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/kraken-js)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-kraken-js/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-kraken-js_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-kraken-js/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-kraken-js/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-kraken-js/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-kraken-js/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-kraken-js/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-kraken-js/build/screenCapture.npmPackageListing.svg)
 
@@ -17,28 +19,23 @@
 
 {
     "author": {
-        "name": "Erik Toth",
-        "email": "ertoth@paypal.com"
+        "name": "Erik Toth"
     },
     "bugs": {
         "url": "https://github.com/krakenjs/kraken-js/issues"
     },
     "contributors": [
         {
-            "name": "Jeff Harrell",
-            "email": "jeharrell@paypal.com"
+            "name": "Jeff Harrell"
         },
         {
-            "name": "Trevor Livingston",
-            "email": "trlivingston@paypal.com"
+            "name": "Trevor Livingston"
         },
         {
-            "name": "Lenny Markus",
-            "email": "lmarkus@paypal.com"
+            "name": "Lenny Markus"
         },
         {
-            "name": "Jean-Charles Sisk",
-            "email": "jsisk@paypal.com"
+            "name": "Jean-Charles Sisk"
         }
     ],
     "dependencies": {
@@ -109,20 +106,16 @@
     "main": "index.js",
     "maintainers": [
         {
-            "name": "totherik",
-            "email": "totherik@gmail.com"
+            "name": "totherik"
         },
         {
-            "name": "jeffharrell",
-            "email": "jeff@juxtadesign.com"
+            "name": "jeffharrell"
         },
         {
-            "name": "pvenkatakrishnan",
-            "email": "poo.leo@gmail.com"
+            "name": "pvenkatakrishnan"
         },
         {
-            "name": "jasisk",
-            "email": "jasisk@gmail.com"
+            "name": "jasisk"
         }
     ],
     "name": "kraken-js",
@@ -130,7 +123,6 @@
     "peerDependencies": {
         "express": "^4.8.4"
     },
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/krakenjs/kraken-js.git"
@@ -142,83 +134,6 @@
     },
     "version": "2.1.0"
 }
-```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module kraken-js](#apidoc.module.kraken-js)
-1.  object <span class="apidocSignatureSpan">kraken-js.</span>config
-
-#### [module kraken-js.config](#apidoc.module.kraken-js.config)
-1.  [function <span class="apidocSignatureSpan">kraken-js.config.</span>create (options)](#apidoc.element.kraken-js.config.create)
-
-
-
-# <a name="apidoc.module.kraken-js"></a>[module kraken-js](#apidoc.module.kraken-js)
-
-
-
-# <a name="apidoc.module.kraken-js.config"></a>[module kraken-js.config](#apidoc.module.kraken-js.config)
-
-#### <a name="apidoc.element.kraken-js.config.create"></a>[function <span class="apidocSignatureSpan">kraken-js.config.</span>create (options)](#apidoc.element.kraken-js.config.create)
-- description and source-code
-```javascript
-function create(options) {
-    var deferred, appProtocols, baseProtocols, baseFactory, appFactory;
-
-    deferred = Bluebird.pending();
-    appProtocols = createHandlers(options);
-    baseProtocols = createHandlers(options);
-
-    appProtocols.resolve = ssresolve(configPath(options.basedir));
-    baseProtocols.resolve = ssresolve(configPath(path.dirname(__dirname)));
-
-    baseFactory = confit({ basedir: configPath(path.dirname(__dirname)), protocols: baseProtocols });
-    baseFactory.create(function(err, baseConf) {
-        if (err) {
-            deferred.reject(err);
-            return;
-        }
-
-        appFactory = confit({
-          basedir: configPath(options.basedir),
-          protocols: appProtocols
-        });
-        appFactory.create(function(err, appConf) {
-            if (err) {
-                deferred.reject(err);
-                return;
-            }
-
-            baseConf.merge(appConf);
-            deferred.resolve(baseConf);
-        });
-    });
-
-    return deferred.promise;
-}
-```
-- example usage
-```shell
-...
-    appProtocols = createHandlers(options);
-    baseProtocols = createHandlers(options);
-
-    appProtocols.resolve = ssresolve(configPath(options.basedir));
-    baseProtocols.resolve = ssresolve(configPath(path.dirname(__dirname)));
-
-    baseFactory = confit({ basedir: configPath(path.dirname(__dirname)), protocols: baseProtocols });
-    baseFactory.create(function(err, baseConf) {
-if (err) {
-    deferred.reject(err);
-    return;
-}
-
-appFactory = confit({
-  basedir: configPath(options.basedir),
-...
 ```
 
 
