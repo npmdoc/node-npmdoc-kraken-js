@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/krakenjs/kraken-js#readme"
-
-    >kraken-js (v2.1.0)</a>
+    <a href="https://github.com/krakenjs/kraken-js#readme">kraken-js (v2.1.0)</a>
 </h1>
 <h4>An express-based Node.js web application bootstrapping module.</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.kraken-js">module kraken-js</a><ol>
 
@@ -327,7 +320,7 @@
     <li>description and source-code<pre class="apidocCodePre">kraken-js = function (options) {
     var app;
 
-    if (typeof options === &#x27;string&#x27;) {
+    if (typeof options === 'string') {
         options = { basedir: options };
     }
 
@@ -338,10 +331,10 @@
     options.mountpath    = null;
     options.inheritViews = !!options.inheritViews;
 
-    debug(&#x27;kraken options\n&#x27;, options);
+    debug('kraken options\n', options);
 
     app = express();
-    app.once(&#x27;mount&#x27;, function onmount(parent) {
+    app.once('mount', function onmount(parent) {
         var start, error, promise;
 
         // Remove sacrificial express app
@@ -352,11 +345,11 @@
         // moved to `options` for use later.
         options.mountpath = app.mountpath;
 
-        start = parent.emit.bind(parent, &#x27;start&#x27;);
-        error = parent.emit.bind(parent, &#x27;error&#x27;);
+        start = parent.emit.bind(parent, 'start');
+        error = parent.emit.bind(parent, 'error');
 
         // Kick off server and add middleware which will block until
-        // server is ready. This way we don&#x27;t have to block standard
+        // server is ready. This way we don't have to block standard
         // `listen` behavior, but failures will occur immediately.
         promise = bootstrap(parent, options);
         promise.then(start, error);
@@ -370,13 +363,13 @@
                 if (headers) {
                     res.header(headers);
                 }
-                res.send(&#x27;Server is starting.&#x27;);
+                res.send('Server is starting.');
                 return;
             }
 
             if (promise.isRejected()) {
                 res.status(503);
-                res.send(&#x27;The application failed to start.&#x27;);
+                res.send('The application failed to start.');
                 return;
             }
 
@@ -399,7 +392,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">404 = function (arg0) {
-&#x22;use strict&#x22;
+"use strict"
 log.call(deprecate, message, site)
 return fn.apply(this, arguments)
 }</pre></li>
@@ -416,7 +409,7 @@ return fn.apply(this, arguments)
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">500 = function (arg0) {
-&#x22;use strict&#x22;
+"use strict"
 log.call(deprecate, message, site)
 return fn.apply(this, arguments)
 }</pre></li>
@@ -441,7 +434,7 @@ return fn.apply(this, arguments)
         .then(middleware)
         .then(events)
         .then(function complete() {
-            debug(&#x27;init complete&#x27;);
+            debug('init complete');
         });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -459,18 +452,18 @@ return fn.apply(this, arguments)
     <li>description and source-code<pre class="apidocCodePre">function events(app) {
     var timer;
 
-    app.on(&#x27;shutdown&#x27;, function onshutdown(server, timeout) {
+    app.on('shutdown', function onshutdown(server, timeout) {
         var stop, ok, err;
 
         stop = function (code) {
-            app.emit(&#x27;stop&#x27;);
+            app.emit('stop');
             process.exit(code);
         };
 
         ok = stop.bind(null, 0);
         err = stop.bind(null, 1);
 
-        debug(&#x27;process shutting down&#x27;);
+        debug('process shutting down');
         server.close(ok);
         clearTimeout(timer);
         timer = setTimeout(err, timeout);
@@ -493,8 +486,8 @@ return fn.apply(this, arguments)
     <li>description and source-code<pre class="apidocCodePre">function middleware(app) {
     var config;
 
-    debug(&#x27;initializing middleware&#x27;);
-    config = app.kraken.get(&#x27;middleware&#x27;) || {};
+    debug('initializing middleware');
+    config = app.kraken.get('middleware') || {};
     app.use(app.settings.mountpath, meddleware(config));
 
     return app;
@@ -524,7 +517,7 @@ return fn.apply(this, arguments)
 
             req.body = fields;
             req.files = files;
-            res.once(&#x27;finish&#x27;, cleanify(files));
+            res.once('finish', cleanify(files));
             next();
         });
     });
@@ -542,20 +535,20 @@ return fn.apply(this, arguments)
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function settings(app, options) {
-    debug(&#x27;initializing settings&#x27;);
+    debug('initializing settings');
 
     function mount(app, options, config) {
         var settings, defaults, handler;
 
         // Get configured settings and express defaults.
-        settings = config.get(&#x27;express&#x27;);
+        settings = config.get('express');
         defaults = Object.keys(app.settings);
 
         if (options.inheritViews) {
             // If the mounted app SHOULD inherit views, delete from local
-            // kraken settings so the app settings aren&#x27;t updated later.
+            // kraken settings so the app settings aren't updated later.
             handler = function (name) {
-                debug(&#x27;inheriting express config setting&#x27;, &#x27;\&#x27;&#x27; + name + &#x27;\&#x27;&#x27;, &#x27;from parent&#x27;);
+                debug('inheriting express config setting', '\'' + name + '\'', 'from parent');
                 delete settings[name];
             };
 
@@ -564,7 +557,7 @@ return fn.apply(this, arguments)
             // of default settings such that they are NOT deleted below.
             handler = function (name) {
                 var idx = defaults.indexOf(name);
-                if (idx &#x3e;= 0) {
+                if (idx &gt;= 0) {
                     defaults.splice(idx, 1);
                 }
             };
@@ -585,13 +578,13 @@ return fn.apply(this, arguments)
     function compose(config) {
         // If this application is mounted on a parent app we need to make sure
         // the two work together cleanly and appropriate settings are inherited.
-        if (typeof app.parent === &#x27;function&#x27;) {
+        if (typeof app.parent === 'function') {
             // If it has already been mounted do all the work to update settings.
             mount(app, options, config);
         } else {
-            // ...if it hasn&#x27;t been mounted, register a handler for the `mount`
+            // ...if it hasn't been mounted, register a handler for the `mount`
             // event to apply them as necessary.
-            app.once(&#x27;mount&#x27;, function () {
+            app.once('mount', function () {
                 mount(this, options, config);
             });
         }
@@ -603,16 +596,16 @@ return fn.apply(this, arguments)
     function complete(config) {
         var settings;
 
-        settings = config.get(&#x27;express&#x27;);
+        settings = config.get('express');
 
         // Allow configuration of custom View impl. This really can be
         // accomplished using shortstop, but maintain for compatibility.
-        if (typeof settings.view === &#x27;string&#x27;) {
+        if (typeof settings.view === 'string') {
             settings.view = require(settings.view);
         }
 
         // Override default settings, leaving the settings object
-        // intact to maintain express&#x27; setting inheritance.
+        // intact to maintain express' setting inheritance.
         Object.keys(settings).forEach(function (name) {
             app.set(name, settings[name]);
         });
@@ -626,18 +619,18 @@ return fn.apply(this, arguments)
             // values are available to update kraken config as
             // appropriate.
             VIEW_CONFIG_KEYS.forEach(function (name) {
-                config.set(&#x27;express:&#x27; + name, app.get(name));
+                config.set('express:' + name, app.get(name));
             });
         }
 
         // If options.mountpath was set, override config settings.
-        app.set(&#x27;mountpath&#x27;, ((typeof options.mountpath === &#x27;string&#x27;) &#x26;&#x26; options.mountpath !== &#x27;/&#x27;) ? options.mountpath : app.get
-(&#x27;mountpath&#x27;));
-        app.set(&#x27;trust proxy&#x27;, config.get(&#x27;express:trust proxy&#x27;));
-        app.set(&#x27;env&#x27;, config.get(&#x27;env:env&#x27;));
+        app.set('mountpath', ((typeof options.mountpath === 'string') &amp;&amp; options.mountpath !== '/') ? options.mountpath : app.get
+('mountpath'));
+        app.set('trust proxy', config.get('express:trust proxy'));
+        app.set('env', config.get('env:env'));
         app.kraken = config;
 
-        debug(&#x27;express settings\n&#x27;, app.settings);
+        debug('express settings\n', app.settings);
         return app;
     }
 
@@ -663,14 +656,14 @@ return fn.apply(this, arguments)
 
     function close() {
         state = States.DISCONNECTING;
-        app.emit(&#x27;shutdown&#x27;, server, timeout);
+        app.emit('shutdown', server, timeout);
     }
 
     config = config || {};
     template = config.template;
     timeout = config.timeout || 10 * 1000;
     state = States.CONNECTED;
-    uncaughtException = thing.isFunction(config.uncaughtException) &#x26;&#x26; config.uncaughtException;
+    uncaughtException = thing.isFunction(config.uncaughtException) &amp;&amp; config.uncaughtException;
 
     once = onceThunk();
 
@@ -680,7 +673,7 @@ return fn.apply(this, arguments)
         headers = config.shutdownHeaders || {};
 
         function json() {
-            res.send({message: &#x27;Server is shutting down.&#x27;});
+            res.send({message: 'Server is shutting down.'});
         }
 
         function html() {
@@ -688,7 +681,7 @@ return fn.apply(this, arguments)
         }
 
         if (state === States.DISCONNECTING) {
-            headers.Connection = headers.Connection || &#x27;close&#x27;;
+            headers.Connection = headers.Connection || 'close';
             res.header(headers);
             res.status(503);
             res.format({
@@ -700,11 +693,11 @@ return fn.apply(this, arguments)
 
         if (!app) {
             // Lazy-bind - only attempt clean shutdown
-            // if we&#x27;ve taken at least one request.
+            // if we've taken at least one request.
             app = req.app;
             server = req.socket.server;
 
-            once(process, [&#x27;SIGTERM&#x27;, &#x27;SIGINT&#x27;], close);
+            once(process, ['SIGTERM', 'SIGINT'], close);
         }
 
         d = domain.create();
@@ -716,13 +709,13 @@ return fn.apply(this, arguments)
             next();
         });
 
-        d.once(&#x27;error&#x27;, function (error) {
+        d.once('error', function (error) {
             if (uncaughtException) {
                 uncaughtException(error, req, res, next);
                 return;
             }
 
-            console.error(new Date().toUTCString(), &#x27;UNCAUGHT&#x27;, error.message);
+            console.error(new Date().toUTCString(), 'UNCAUGHT', error.message);
             console.error(error.stack);
 
             next(error);
@@ -762,20 +755,20 @@ return fn.apply(this, arguments)
     <li>description and source-code<pre class="apidocCodePre">function views(app) {
     var engines;
 
-    debug(&#x27;initializing views&#x27;);
+    debug('initializing views');
 
-    engines = app.kraken.get(&#x27;view engines&#x27;) || {};
+    engines = app.kraken.get('view engines') || {};
     Object.keys(engines).forEach(function (ext) {
         var spec, module, args, engine;
 
         spec = engines[ext];
         module = require(spec.module);
 
-        if (thing.isObject(spec.renderer) &#x26;&#x26; thing.isFunction(module[spec.renderer.method])) {
-            args = Array.isArray(spec.renderer[&#x27;arguments&#x27;]) ? spec.renderer[&#x27;arguments&#x27;].slice() : [];
+        if (thing.isObject(spec.renderer) &amp;&amp; thing.isFunction(module[spec.renderer.method])) {
+            args = Array.isArray(spec.renderer['arguments']) ? spec.renderer['arguments'].slice() : [];
             engine = module[spec.renderer.method].apply(null, args);
 
-        } else if (thing.isString(spec.renderer) &#x26;&#x26; thing.isFunction(module[spec.renderer])) {
+        } else if (thing.isString(spec.renderer) &amp;&amp; thing.isFunction(module[spec.renderer])) {
             engine = module[spec.renderer];
 
         } else if (thing.isFunction(module[spec.name])) {
@@ -813,7 +806,7 @@ return fn.apply(this, arguments)
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">404 = function (arg0) {
-&#x22;use strict&#x22;
+"use strict"
 log.call(deprecate, message, site)
 return fn.apply(this, arguments)
 }</pre></li>
@@ -835,7 +828,7 @@ return fn.apply(this, arguments)
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">500 = function (arg0) {
-&#x22;use strict&#x22;
+"use strict"
 log.call(deprecate, message, site)
 return fn.apply(this, arguments)
 }</pre></li>
@@ -865,7 +858,7 @@ return fn.apply(this, arguments)
         .then(middleware)
         .then(events)
         .then(function complete() {
-            debug(&#x27;init complete&#x27;);
+            debug('init complete');
         });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -955,18 +948,18 @@ appFactory = confit({
     <li>description and source-code<pre class="apidocCodePre">function events(app) {
     var timer;
 
-    app.on(&#x27;shutdown&#x27;, function onshutdown(server, timeout) {
+    app.on('shutdown', function onshutdown(server, timeout) {
         var stop, ok, err;
 
         stop = function (code) {
-            app.emit(&#x27;stop&#x27;);
+            app.emit('stop');
             process.exit(code);
         };
 
         ok = stop.bind(null, 0);
         err = stop.bind(null, 1);
 
-        debug(&#x27;process shutting down&#x27;);
+        debug('process shutting down');
         server.close(ok);
         clearTimeout(timer);
         timer = setTimeout(err, timeout);
@@ -994,8 +987,8 @@ appFactory = confit({
     <li>description and source-code<pre class="apidocCodePre">function middleware(app) {
     var config;
 
-    debug(&#x27;initializing middleware&#x27;);
-    config = app.kraken.get(&#x27;middleware&#x27;) || {};
+    debug('initializing middleware');
+    config = app.kraken.get('middleware') || {};
     app.use(app.settings.mountpath, meddleware(config));
 
     return app;
@@ -1030,7 +1023,7 @@ appFactory = confit({
 
             req.body = fields;
             req.files = files;
-            res.once(&#x27;finish&#x27;, cleanify(files));
+            res.once('finish', cleanify(files));
             next();
         });
     });
@@ -1053,20 +1046,20 @@ appFactory = confit({
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function settings(app, options) {
-    debug(&#x27;initializing settings&#x27;);
+    debug('initializing settings');
 
     function mount(app, options, config) {
         var settings, defaults, handler;
 
         // Get configured settings and express defaults.
-        settings = config.get(&#x27;express&#x27;);
+        settings = config.get('express');
         defaults = Object.keys(app.settings);
 
         if (options.inheritViews) {
             // If the mounted app SHOULD inherit views, delete from local
-            // kraken settings so the app settings aren&#x27;t updated later.
+            // kraken settings so the app settings aren't updated later.
             handler = function (name) {
-                debug(&#x27;inheriting express config setting&#x27;, &#x27;\&#x27;&#x27; + name + &#x27;\&#x27;&#x27;, &#x27;from parent&#x27;);
+                debug('inheriting express config setting', '\'' + name + '\'', 'from parent');
                 delete settings[name];
             };
 
@@ -1075,7 +1068,7 @@ appFactory = confit({
             // of default settings such that they are NOT deleted below.
             handler = function (name) {
                 var idx = defaults.indexOf(name);
-                if (idx &#x3e;= 0) {
+                if (idx &gt;= 0) {
                     defaults.splice(idx, 1);
                 }
             };
@@ -1096,13 +1089,13 @@ appFactory = confit({
     function compose(config) {
         // If this application is mounted on a parent app we need to make sure
         // the two work together cleanly and appropriate settings are inherited.
-        if (typeof app.parent === &#x27;function&#x27;) {
+        if (typeof app.parent === 'function') {
             // If it has already been mounted do all the work to update settings.
             mount(app, options, config);
         } else {
-            // ...if it hasn&#x27;t been mounted, register a handler for the `mount`
+            // ...if it hasn't been mounted, register a handler for the `mount`
             // event to apply them as necessary.
-            app.once(&#x27;mount&#x27;, function () {
+            app.once('mount', function () {
                 mount(this, options, config);
             });
         }
@@ -1114,16 +1107,16 @@ appFactory = confit({
     function complete(config) {
         var settings;
 
-        settings = config.get(&#x27;express&#x27;);
+        settings = config.get('express');
 
         // Allow configuration of custom View impl. This really can be
         // accomplished using shortstop, but maintain for compatibility.
-        if (typeof settings.view === &#x27;string&#x27;) {
+        if (typeof settings.view === 'string') {
             settings.view = require(settings.view);
         }
 
         // Override default settings, leaving the settings object
-        // intact to maintain express&#x27; setting inheritance.
+        // intact to maintain express' setting inheritance.
         Object.keys(settings).forEach(function (name) {
             app.set(name, settings[name]);
         });
@@ -1137,18 +1130,18 @@ appFactory = confit({
             // values are available to update kraken config as
             // appropriate.
             VIEW_CONFIG_KEYS.forEach(function (name) {
-                config.set(&#x27;express:&#x27; + name, app.get(name));
+                config.set('express:' + name, app.get(name));
             });
         }
 
         // If options.mountpath was set, override config settings.
-        app.set(&#x27;mountpath&#x27;, ((typeof options.mountpath === &#x27;string&#x27;) &#x26;&#x26; options.mountpath !== &#x27;/&#x27;) ? options.mountpath : app.get
-(&#x27;mountpath&#x27;));
-        app.set(&#x27;trust proxy&#x27;, config.get(&#x27;express:trust proxy&#x27;));
-        app.set(&#x27;env&#x27;, config.get(&#x27;env:env&#x27;));
+        app.set('mountpath', ((typeof options.mountpath === 'string') &amp;&amp; options.mountpath !== '/') ? options.mountpath : app.get
+('mountpath'));
+        app.set('trust proxy', config.get('express:trust proxy'));
+        app.set('env', config.get('env:env'));
         app.kraken = config;
 
-        debug(&#x27;express settings\n&#x27;, app.settings);
+        debug('express settings\n', app.settings);
         return app;
     }
 
@@ -1179,14 +1172,14 @@ appFactory = confit({
 
     function close() {
         state = States.DISCONNECTING;
-        app.emit(&#x27;shutdown&#x27;, server, timeout);
+        app.emit('shutdown', server, timeout);
     }
 
     config = config || {};
     template = config.template;
     timeout = config.timeout || 10 * 1000;
     state = States.CONNECTED;
-    uncaughtException = thing.isFunction(config.uncaughtException) &#x26;&#x26; config.uncaughtException;
+    uncaughtException = thing.isFunction(config.uncaughtException) &amp;&amp; config.uncaughtException;
 
     once = onceThunk();
 
@@ -1196,7 +1189,7 @@ appFactory = confit({
         headers = config.shutdownHeaders || {};
 
         function json() {
-            res.send({message: &#x27;Server is shutting down.&#x27;});
+            res.send({message: 'Server is shutting down.'});
         }
 
         function html() {
@@ -1204,7 +1197,7 @@ appFactory = confit({
         }
 
         if (state === States.DISCONNECTING) {
-            headers.Connection = headers.Connection || &#x27;close&#x27;;
+            headers.Connection = headers.Connection || 'close';
             res.header(headers);
             res.status(503);
             res.format({
@@ -1216,11 +1209,11 @@ appFactory = confit({
 
         if (!app) {
             // Lazy-bind - only attempt clean shutdown
-            // if we&#x27;ve taken at least one request.
+            // if we've taken at least one request.
             app = req.app;
             server = req.socket.server;
 
-            once(process, [&#x27;SIGTERM&#x27;, &#x27;SIGINT&#x27;], close);
+            once(process, ['SIGTERM', 'SIGINT'], close);
         }
 
         d = domain.create();
@@ -1232,13 +1225,13 @@ appFactory = confit({
             next();
         });
 
-        d.once(&#x27;error&#x27;, function (error) {
+        d.once('error', function (error) {
             if (uncaughtException) {
                 uncaughtException(error, req, res, next);
                 return;
             }
 
-            console.error(new Date().toUTCString(), &#x27;UNCAUGHT&#x27;, error.message);
+            console.error(new Date().toUTCString(), 'UNCAUGHT', error.message);
             console.error(error.stack);
 
             next(error);
@@ -1286,20 +1279,20 @@ appFactory = confit({
     <li>description and source-code<pre class="apidocCodePre">function views(app) {
     var engines;
 
-    debug(&#x27;initializing views&#x27;);
+    debug('initializing views');
 
-    engines = app.kraken.get(&#x27;view engines&#x27;) || {};
+    engines = app.kraken.get('view engines') || {};
     Object.keys(engines).forEach(function (ext) {
         var spec, module, args, engine;
 
         spec = engines[ext];
         module = require(spec.module);
 
-        if (thing.isObject(spec.renderer) &#x26;&#x26; thing.isFunction(module[spec.renderer.method])) {
-            args = Array.isArray(spec.renderer[&#x27;arguments&#x27;]) ? spec.renderer[&#x27;arguments&#x27;].slice() : [];
+        if (thing.isObject(spec.renderer) &amp;&amp; thing.isFunction(module[spec.renderer.method])) {
+            args = Array.isArray(spec.renderer['arguments']) ? spec.renderer['arguments'].slice() : [];
             engine = module[spec.renderer.method].apply(null, args);
 
-        } else if (thing.isString(spec.renderer) &#x26;&#x26; thing.isFunction(module[spec.renderer])) {
+        } else if (thing.isString(spec.renderer) &amp;&amp; thing.isFunction(module[spec.renderer])) {
             engine = module[spec.renderer];
 
         } else if (thing.isFunction(module[spec.name])) {
@@ -1329,3 +1322,4 @@ appFactory = confit({
     ]
 </div>
 </div>
+</body></html>
