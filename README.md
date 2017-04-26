@@ -1,4 +1,7 @@
-# api documentation for  [kraken-js (v2.1.0)](https://github.com/krakenjs/kraken-js#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-kraken-js.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-kraken-js) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-kraken-js.svg)](https://travis-ci.org/npmdoc/node-npmdoc-kraken-js)
+# npmdoc-kraken-js
+
+#### basic api documentation for  [kraken-js (v2.1.0)](https://github.com/krakenjs/kraken-js#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-kraken-js.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-kraken-js) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-kraken-js.svg)](https://travis-ci.org/npmdoc/node-npmdoc-kraken-js)
+
 #### An express-based Node.js web application bootstrapping module.
 
 [![NPM](https://nodei.co/npm/kraken-js.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/kraken-js)
@@ -132,7 +135,8 @@
         "lint": "jshint -c .jshintrc index.js lib/ middleware/",
         "test": "tape test/*.js"
     },
-    "version": "2.1.0"
+    "version": "2.1.0",
+    "bin": {}
 }
 ```
 
